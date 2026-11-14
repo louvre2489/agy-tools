@@ -1,0 +1,17 @@
+{
+  "sensitive-info-git-commit-guard": {
+    "enabled": true,
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.gemini/config/hooks/git_commit_guard.py",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

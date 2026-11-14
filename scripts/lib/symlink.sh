@@ -15,7 +15,10 @@ create_safe_symlink() {
 
   # すでにシンボリックリンクが存在する場合は更新（張り直し）
   if [[ -L "$dest_path" ]]; then
-    ln -sfn "$src_path" "$dest_path"
+    if ! ln -sfn "$src_path" "$dest_path"; then
+      echo "[ERROR] シンボリックリンクの更新に失敗しました: $dest_path" >&2
+      return 1
+    fi
     echo "[UPDATED] シンボリックリンクを更新しました: $dest_path -> $src_path"
     return 0
   fi
@@ -27,7 +30,10 @@ create_safe_symlink() {
   fi
 
   # 新規作成
-  ln -s "$src_path" "$dest_path"
+  if ! ln -s "$src_path" "$dest_path"; then
+    echo "[ERROR] シンボリックリンクの作成に失敗しました: $dest_path" >&2
+    return 1
+  fi
   echo "[CREATED] シンボリックリンクを作成しました: $dest_path -> $src_path"
   return 0
 }
